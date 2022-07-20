@@ -1,0 +1,88 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Manage Transfer
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+
+<section class="content">
+    
+    
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form id = "manage_transfer_form" srole="form" method="POST" action="{% url 'manage_transfer_action'  %}">
+                    {% csrf_token %}
+
+                             {% comment %} Display Messages {% endcomment %}
+                            {% if messages %}
+                            <div class="form-group">
+                            <div class="col-12">
+                                {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                {% elif message.tags == "success" %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            </div>
+                            {% endif %} 
+                        
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Select P.No </label>
+                                <select class="form-control" name="pno">
+                                    <option disabled selected value> -- select the P.No -- </option>
+                                    {% for personnelmaster in personnelmasters %}
+                                        <option value="{{ personnelmaster.personnel_id }}">{{ personnelmaster.pno }}</option>
+                                        <!-- <input type="hidden" name="personnel_id" value="{{ personnelmaster.personnel_id }}" /> -->
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        <div>
+                            {% for personnelmaster in personnelmasters %}
+                            <input type="hidden" name="personnel_id" value="{{ personnelmasters.personnel_id }}" />
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Manage Transfer</button>
+                    </div>
+                </form>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+
+        
+
+    </div><!-- /.container-fluid -->
+    
+  </section>
+
+  {% endblock main_content %}
